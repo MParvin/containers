@@ -9,6 +9,20 @@ services:
       - '9300:9300'
     volumes:
       - 'elasticsearch_data:/bitnami/elasticsearch/data'
+    networks:
+      - 'elasticsearch'
+  elasticsearch-exporter:
+    image: docker.io/bitnami/elasticsearch-exporter:latest
+    ports:
+      - '9114:9114'
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    networks:
+      - 'elasticsearch'
 volumes:
   elasticsearch_data:
     driver: local
+
+networks:
+  elasticsearch:
+    driver: bridge
